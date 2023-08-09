@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { averageElevation, averageSpeedNordic, getAverageKm, getAverageKmTrail, getAveragePaceRuns, getDurationsThisYear, getNumberOfBC, getNumberOfNordic, getNumberOfRunsThisYear, getTotalKmNordic, getTotalKmThisYear, totalElevation } from "../functions/statCalculations";
 import { IActivity } from "../types/types";
 import StatBox from "./StatBox";
@@ -10,6 +11,27 @@ interface StatProps {
 
 export default function Stats(props: StatProps){
 
+    const [visibleStatsCount, setVisibleStatsCount] = useState(6);
+
+    const handleResize = () => {
+        const maxHeight = window.innerHeight * 0.7; // Maksimal høyde er 70vh
+        console.log(maxHeight);
+        const statsBoxHeight = 86; // Juster denne verdien etter dine behov
+
+        const newVisibleStatsCount = Math.floor(maxHeight / statsBoxHeight);
+        setVisibleStatsCount(newVisibleStatsCount);
+    };
+
+    useEffect(() => {
+        handleResize(); // Initial beregning
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     const renderStats = () => {
         if (props.type === "run"){
             const data = [
@@ -18,11 +40,15 @@ export default function Stats(props: StatProps){
                 {info: "Antall timer løpt i år", stat: getDurationsThisYear(props.activities).hours + ':' + getDurationsThisYear(props.activities).minutes},
                 {info: "Antall kilometer i snitt per løpetur (flatt)", stat: getAverageKm(props.activities) + " km"},
                 {info: "Snittfart per løpetur (flatt)", stat: getAveragePaceRuns(props.activities)},
-                {info: "Snitt antall kilometer terrengløp", stat: getAverageKmTrail(props.activities) + " km"}
+                {info: "Snitt antall kilometer terreng", stat: getAverageKmTrail(props.activities) + " km"}
             ];
+
+            const limitedData = data.slice(0, visibleStatsCount);
+
+
             return (
                 <div>
-                    {data.map((item, index ) => (
+                    {limitedData.map((item, index ) => (
                         <StatBox key={index} info={item.info} stat={item.stat} />
                     ))}
                 </div>
@@ -48,17 +74,9 @@ export default function Stats(props: StatProps){
 
     return (
         <div>
-            <div style={styles.dataContainer}>
+            <div>
                 {renderStats()}
             </div>
         </div>
     )
-}
-
-const styles = {
-    dataContainer: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gridTemplateRows: 'repeat(3, 1fr)',
-    }
 }

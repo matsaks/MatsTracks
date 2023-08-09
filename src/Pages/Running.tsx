@@ -7,6 +7,7 @@ import mapboxgl, { LngLatLike } from "mapbox-gl";
 import { decodePolyline } from "../functions/polylineFunctions";
 import { ProgressBar } from "react-loader-spinner";
 import LocationBar from "../Components/LocationsBar";
+import Grid from "@mui/material/Grid";
 
 export default function Running(){
     const heatMapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -98,38 +99,35 @@ export default function Running(){
     }
 
     return (
-        <div style={styles.screenContainer}>
-            <div>
-            {isLoading ? (
-                <div>
-                    <ProgressBar
-                        height="80"
-                        width="80"
-                        ariaLabel="progress-bar-loading"
-                        wrapperStyle={{}}
-                        wrapperClass="progress-bar-wrapper"
-                        borderColor = '#F4442E'
-                        barColor = '#51E5FF'
-                        />
-                </div>
-            ):(<div style={{display: 'flex'}}>
-                <div ref={heatMapContainerRef} style={{ width: '100%', height: '940px'}}/>
-            </div>
-            )}
-            </div>
-            <div style={{ width: '100%', height: '940px'}}>
-                <Stats activities={runs} type="run" />
-            </div>
+        <div>
+            <Grid container spacing={2}>
+                <Grid item xs={10}>
+                    {isLoading ? (
+                        <div>
+                            <ProgressBar
+                                height="80"
+                                width="80"
+                                ariaLabel="progress-bar-loading"
+                                wrapperStyle={{}}
+                                wrapperClass="progress-bar-wrapper"
+                                borderColor = '#F4442E'
+                                barColor = '#51E5FF'
+                                />
+                        </div>
+                    ):(<div style={{display: 'flex'}}>
+                        <div ref={heatMapContainerRef} style={{ width: '100%', height: '70vh'}}/>
+                    </div>
+                    )}
+                </Grid>
+                <Grid item xs={2}>
+                    <div style={{ width: '100%', maxHeight: '70vh'}}>
+                        <Stats activities={runs} type="run" />
+                    </div>
+                </Grid>
+            </Grid>
             {!isLoading &&
                 <LocationBar handleLocationChange={handleLoactionChange} map="Run"/>
             }
         </div>
     )
-}
-
-const styles = {
-    screenContainer: {
-        display: 'grid',
-        gridTemplateColumns: '5fr 1fr'
-    }
 }

@@ -11,10 +11,10 @@ export default function StatBox(props: StatBoxProps){
     const card = (
         <React.Fragment>
             <CardContent sx={{ backgroundColor: "#BACEC1"}}>
-                <Typography sx={{ fontSize: 24}} gutterBottom>
+                <Typography sx={{ fontSize: 13}} gutterBottom>
                     {props.info}
                 </Typography>
-                <Typography sx={{ fontSize: 48}} variant="h5" component="div">
+                <Typography sx={{ fontSize: 15, fontWeight: 'bold'}} variant="h2" component="div">
                     {props.stat}
                 </Typography>
             </CardContent>
@@ -23,8 +23,8 @@ export default function StatBox(props: StatBoxProps){
 
     return (
         <div>
-            <Box sx={{width: 450}}>
-                <Card variant="outlined">{card}</Card>
+            <Box>
+                <Card sx={{maxHeight: '100px'}} variant="outlined">{card}</Card>
             </Box>
         </div>
     )
