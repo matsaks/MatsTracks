@@ -16,6 +16,7 @@ export default function Map(){
     const [activities, setActivities] = useState<IActivity[]>([]);
     const [isLoading, setLoading] = useState(true);
     const [location, setLocation] = useState("Ålesund");
+    const [numberOfLocations, setNumberOfLocations] = useState(5);
 
     useEffect(() => {
         async function getTracks(){
@@ -27,6 +28,19 @@ export default function Map(){
         }
         getTracks();
     },[]);
+
+    const handleResize = () => {
+        setNumberOfLocations(Math.floor(window.innerWidth / 160));
+    };
+
+    useEffect(() => {
+        handleResize(); 
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         if (!heatMapContainerRef.current) return;
@@ -125,11 +139,11 @@ export default function Map(){
                         />
                 </div>
             ):(<div style={{display: 'flex'}}>
-                <div ref={heatMapContainerRef} style={{ width: '100%', height: '70vh'}}/>
+                <div ref={heatMapContainerRef} style={{ width: '100%', height: '75vh'}}/>
             </div>
             )}
             {!isLoading &&
-                <LocationBar handleLocationChange={handleLoactionChange} map="Heatmap"/>
+                <LocationBar handleLocationChange={handleLoactionChange} map="Heatmap" numberOfLocations={numberOfLocations}/>
             }
         </div>
     )

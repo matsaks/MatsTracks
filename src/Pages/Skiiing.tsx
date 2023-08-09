@@ -7,13 +7,16 @@ import { decodePolyline } from "../functions/polylineFunctions";
 import { ProgressBar } from "react-loader-spinner";
 import Stats from "../Components/Stats";
 import LocationBar from "../Components/LocationsBar";
+import Grid from "@mui/material/Grid";
 
 export default function Skiing(){
     const heatMapContainerRef = useRef<HTMLDivElement | null>(null);
     const heatMapRef = useRef<MapboxMap | null>(null);
     const [skis, setSkis] = useState<IActivity[]>([]);
     const [isLoading, setLoading] = useState(true);
-    const [location, setLocation] = useState("Hjørundfjorden")
+    const [location, setLocation] = useState("Hjørundfjorden");
+    const [wideEnoughWindow, setWideEnoughWindow] = useState(false);
+    const [numberOfLocations, setNumberOfLocations] = useState(5);
 
     useEffect(() => {
         async function getTracks(){
@@ -26,13 +29,27 @@ export default function Skiing(){
         getTracks();
     },[]);
 
+    const handleResize = () => {
+        window.innerWidth >= 800 ? setWideEnoughWindow(true) : setWideEnoughWindow(false);
+        setNumberOfLocations(Math.floor(window.innerWidth / 160));
+    };
+
+    useEffect(() => {
+        handleResize(); 
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     useEffect(() => {
         if (!heatMapContainerRef.current) return;
 
         let center: LngLatLike = [6.4833, 62.2167];
         switch (location) {
             case "Hjørundfjorden":
-                center = [6.4833, 62.2167];
+                center = [6.4683910566293585, 62.243102440282456];
                 break;
             case "Stordal":
                 center = [7.060459993324359, 62.40906090673966];
@@ -98,38 +115,37 @@ export default function Skiing(){
     }
     
     return (
-        <div style={styles.screenContainer}>
-            <div>
-            {isLoading ? (
-                <div>
-                    <ProgressBar
-                        height="80"
-                        width="80"
-                        ariaLabel="progress-bar-loading"
-                        wrapperStyle={{}}
-                        wrapperClass="progress-bar-wrapper"
-                        borderColor = '#F4442E'
-                        barColor = '#51E5FF'
-                        />
-                </div>
-            ):(<div style={{display: 'flex'}}>
-                <div ref={heatMapContainerRef} style={{ width: '100%', height: '940px'}}/>
-            </div>
-            )}
-            </div>
-            <div style={{ width: '100%', height: '940px'}}>
-                <Stats activities={skis} type="ski" />
-            </div>
+        <div>
+            <Grid container spacing={2}>
+                <Grid item xs={10}>
+                    {isLoading ? (
+                        <div>
+                            <ProgressBar
+                                height="80"
+                                width="80"
+                                ariaLabel="progress-bar-loading"
+                                wrapperStyle={{}}
+                                wrapperClass="progress-bar-wrapper"
+                                borderColor = '#F4442E'
+                                barColor = '#51E5FF'
+                                />
+                        </div>
+                    ):(<div style={{display: 'flex'}}>
+                        <div ref={heatMapContainerRef} style={{ width: '100%', height: '75vh'}}/>
+                    </div>
+                    )}
+                </Grid>
+                {wideEnoughWindow && (
+                    <Grid item xs={2}>
+                        <div style={{ width: '100%', height: '75vh'}}>
+                            <Stats activities={skis} type="ski" />
+                        </div>
+                    </Grid>
+                )}
+            </Grid>
             {!isLoading &&
-                <LocationBar handleLocationChange={handleLoactionChange} map="Ski"/>
+                <LocationBar handleLocationChange={handleLoactionChange} map="Ski" numberOfLocations={numberOfLocations}/>
             }
         </div>
     )
-}
-
-const styles = {
-    screenContainer: {
-        display: 'grid',
-        gridTemplateColumns: '5fr 1fr'
-    }
 }

@@ -3,28 +3,40 @@ import { Button } from "@mui/material";
 interface IProps {
     handleLocationChange: {(arg0: string): void};
     map: string;
+    numberOfLocations: number;
 }
 
-export default function LocationBar({handleLocationChange, map}: IProps){
+export default function LocationBar({handleLocationChange, map, numberOfLocations}: IProps){
+
+    const runningLocations = [
+        "Ålesund",
+        "Trondheim",
+        "Larvik",
+        "Nordfjord",
+        "Porsanger"
+    ]
+    const skiingLocations = [
+        "Hjørundfjorden",
+        "Stordal",
+        "Nordmøre",
+        "Trondheim",
+        "Nordfjord"
+    ]
 
     const renderButtons = () => {
         if (map === "Heatmap" || map === "Run"){
             return (
                 <div style={{ display: 'flex' , justifyContent: 'space-between', marginTop: '15px'}}>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Ålesund")} variant="contained">Ålesund</Button>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Trondheim")} variant="contained">Trondheim</Button>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Larvik")} variant="contained">Larvik</Button>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Nordfjord")} variant="contained">Nordfjord</Button>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Porsanger")} variant="contained">Porsanger</Button>
+                    {runningLocations.slice(0, numberOfLocations-1).map((location) => (
+                        <Button sx={sxStyles.button} onClick={() => handleLocationChange(location)} variant="contained">{location}</Button>
+                    ))}
                 </div>
         )} else {
             return (
                 <div style={{ display: 'flex' , justifyContent: 'space-between', marginTop: '15px'}}>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Hjørundfjorden")} variant="contained">Hjørundfjorden</Button>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Stordal")} variant="contained">Stordal</Button>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Nordmøre")} variant="contained">Nordmøre</Button>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Trondheim")} variant="contained">Trondheim</Button>
-                    <Button sx={sxStyles.button} onClick={() => handleLocationChange("Nordfjord")} variant="contained">Nordfjord</Button>
+                    {skiingLocations.slice(0, numberOfLocations-1).map((location) => (
+                        <Button sx={sxStyles.button} onClick={() => handleLocationChange(location)} variant="contained">{location}</Button>
+                    ))}
                 </div>
             )
         }

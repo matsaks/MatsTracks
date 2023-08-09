@@ -5,7 +5,7 @@ import TerrainIcon from '@mui/icons-material/Terrain';
 import SyncIcon from '@mui/icons-material/Sync';
 import { useNavigate } from "react-router-dom";
 import { addActivities, syncActivities } from "../lib/controller";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IProps {
     handleLoading: {(arg0: boolean): void};
@@ -17,12 +17,25 @@ const Navbar = ({handleLoading}: IProps) => {
     const [message, setMessage] = useState("");
     const [alertType, setAlertType] = useState<AlertColor>("info");
     const hideNavbarOnRoutes = ['/'];
-
+    const [largeWindow, setLargeWindow] = useState(true);
     const shouldHideNavbar = hideNavbarOnRoutes.includes(location.pathname);
 
     if (shouldHideNavbar){
         return null;
     }
+
+    const handleResize = () => {
+        setLargeWindow(window.innerWidth > 700);
+    };
+
+    useEffect(() => {
+        handleResize(); 
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     async function handleSync(){
         try {
@@ -76,23 +89,23 @@ const Navbar = ({handleLoading}: IProps) => {
                             startIcon={<MapIcon/>} 
                             size="large" 
                             variant="contained" 
-                            onClick={() => navigate("/heatmap")}>Heatmap</Button>
+                            onClick={() => navigate("/heatmap")}>{largeWindow && "Heatmap"}</Button>
                         <Button sx={sxStyles.button} 
                             startIcon={<DirectionsRunIcon/>} 
                             variant="contained" 
-                            onClick={() => navigate("/running")}>Løping</Button>
+                            onClick={() => navigate("/running")}>{largeWindow && "Løping"}</Button>
                         <Button sx={sxStyles.button} 
                             startIcon={<TerrainIcon/>} 
                             variant="contained" 
-                            onClick={() => navigate("/skiing")}>Ski</Button>
+                            onClick={() => navigate("/skiing")}>{largeWindow && "Ski"}</Button>
                     </Grid>
                     <Grid item xs={5}>
-                        <Button sx={{width: '200px', height: '70%', fontSize: '14px', backgroundColor: '#3C8ED9', float: "right", mr: 10}} 
+                        <Button sx={{width: '40%', height: '70%', fontSize: '14px', backgroundColor: '#3C8ED9', float: "right", mr: 10}} 
                             startIcon={<SyncIcon/>} 
                             variant="contained" 
                             size="large" 
                             onClick={handleSync}
-                            >Synkroniser</Button>
+                            >{largeWindow && "Synkroniser"}</Button>
                     </Grid>
                 </Grid>
             </div>

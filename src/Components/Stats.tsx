@@ -14,16 +14,15 @@ export default function Stats(props: StatProps){
     const [visibleStatsCount, setVisibleStatsCount] = useState(6);
 
     const handleResize = () => {
-        const maxHeight = window.innerHeight * 0.7; // Maksimal høyde er 70vh
-        console.log(maxHeight);
-        const statsBoxHeight = 86; // Juster denne verdien etter dine behov
+        const maxHeight = window.innerHeight * 0.7; 
+        const statsBoxHeight = 86; 
 
         const newVisibleStatsCount = Math.floor(maxHeight / statsBoxHeight);
         setVisibleStatsCount(newVisibleStatsCount);
     };
 
     useEffect(() => {
-        handleResize(); // Initial beregning
+        handleResize();
 
         window.addEventListener('resize', handleResize);
 
@@ -45,7 +44,6 @@ export default function Stats(props: StatProps){
 
             const limitedData = data.slice(0, visibleStatsCount);
 
-
             return (
                 <div>
                     {limitedData.map((item, index ) => (
@@ -62,9 +60,12 @@ export default function Stats(props: StatProps){
                 {info: "Antall kilometer langrenn", stat: getTotalKmNordic(props.activities).toFixed(1) + " km"},
                 {info: "Gjennomsnittsfart langrenn", stat: averageSpeedNordic(props.activities) + " km/h"}
             ];
+
+            const limitedData = data.slice(0, visibleStatsCount);
+
             return (
                 <div>
-                    {data.map((item, index ) => (
+                    {limitedData.map((item, index ) => (
                         <StatBox key={index} info={item.info} stat={item.stat} />
                     ))}
                 </div>

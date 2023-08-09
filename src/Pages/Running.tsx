@@ -13,8 +13,10 @@ export default function Running(){
     const heatMapContainerRef = useRef<HTMLDivElement | null>(null);
     const heatMapRef = useRef<MapboxMap | null>(null);
     const [runs, setRuns] = useState<IActivity[]>([]);
-    const [isLoading, setLoading] = useState(true);
-    const [location, setLocation] = useState("Hjørundfjorden");
+    const [isLoading, setLoading] = useState(false);
+    const [location, setLocation] = useState("Ålesund");
+    const [wideEnoughWindow, setWideEnoughWindow] = useState(false);
+    const [numberOfLocations, setNumberOfLocations] = useState(5);
 
     useEffect(() => {
         async function getTracks(){
@@ -26,6 +28,20 @@ export default function Running(){
         }
         getTracks();
     },[]);
+
+    const handleResize = () => {
+        window.innerWidth >= 800 ? setWideEnoughWindow(true) : setWideEnoughWindow(false);
+        setNumberOfLocations(Math.floor(window.innerWidth / 160));
+    };
+
+    useEffect(() => {
+        handleResize(); 
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         if (!heatMapContainerRef.current) return;
@@ -101,7 +117,7 @@ export default function Running(){
     return (
         <div>
             <Grid container spacing={2}>
-                <Grid item xs={10}>
+                <Grid item xs={wideEnoughWindow ? 10 : 12}>
                     {isLoading ? (
                         <div>
                             <ProgressBar
@@ -115,18 +131,20 @@ export default function Running(){
                                 />
                         </div>
                     ):(<div style={{display: 'flex'}}>
-                        <div ref={heatMapContainerRef} style={{ width: '100%', height: '70vh'}}/>
+                        <div ref={heatMapContainerRef} style={{ width: '100%', height: '75vh'}}/>
                     </div>
                     )}
                 </Grid>
-                <Grid item xs={2}>
-                    <div style={{ width: '100%', maxHeight: '70vh'}}>
-                        <Stats activities={runs} type="run" />
-                    </div>
-                </Grid>
+                {wideEnoughWindow && (
+                    <Grid item xs={2}>
+                        <div style={{ width: '100%', maxHeight: '75vh'}}>
+                            <Stats activities={runs} type="run" />
+                        </div>
+                    </Grid>
+                )}
             </Grid>
             {!isLoading &&
-                <LocationBar handleLocationChange={handleLoactionChange} map="Run"/>
+                <LocationBar handleLocationChange={handleLoactionChange} map="Run" numberOfLocations={numberOfLocations}/>
             }
         </div>
     )

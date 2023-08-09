@@ -32,8 +32,8 @@ function App() {
       <div style={styles.loaderContainer}>
         <MagnifyingGlass
             visible={isLoading}
-            height="80"
-            width="80"
+            height="40"
+            width="40"
             ariaLabel="MagnifyingGlass-loading"
             wrapperStyle={{}}
             wrapperClass="MagnifyingGlass-wrapper"
