@@ -7,6 +7,7 @@ import Skiing from './Pages/Skiiing'
 import { useState } from 'react'
 import { MagnifyingGlass } from 'react-loader-spinner'
 import Login from './Pages/Login'
+import Footer from './Components/Footer'
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +26,9 @@ function App() {
           <Route path='running' element={<Running/>}/>
           <Route path='skiing' element={<Skiing/>}/>
         </Routes>
+        <Footer />
       </BrowserRouter>
+
       <div style={styles.loaderContainer}>
         <MagnifyingGlass
             visible={isLoading}

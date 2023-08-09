@@ -54,7 +54,7 @@ export default function Map(){
             container: heatMapContainerRef.current,
             style: "mapbox://styles/matsaks/clk09621d00ac01pf9lpj6mj6",
             center: center,
-            zoom: 12
+            zoom: 11
         })
         heatMapRef.current = map;
 
@@ -125,7 +125,7 @@ export default function Map(){
                         />
                 </div>
             ):(<div style={{display: 'flex'}}>
-                <div ref={heatMapContainerRef} style={{ width: '100%', height: '900px'}}/>
+                <div ref={heatMapContainerRef} style={{ width: '100%', height: '70vh'}}/>
             </div>
             )}
             {!isLoading &&

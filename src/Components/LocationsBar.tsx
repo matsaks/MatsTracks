@@ -39,8 +39,8 @@ export default function LocationBar({handleLocationChange, map}: IProps){
 
 const sxStyles = {
     button: {
-        width: '300px',
-        height: '50px',
+        width: '25vh',
+        height: '70%',
         backgroundColor: '#E59560'
     }
 }

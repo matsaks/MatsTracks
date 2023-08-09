@@ -69,9 +69,9 @@ const Navbar = ({handleLoading}: IProps) => {
 
     return (
         <div>
-            <div style={{ backgroundColor: '#F8EFEA', height: 75}}>
+            <div style={{ backgroundColor: '#F8EFEA', height: '7vh'}}>
                 <Grid container spacing={2}>
-                    <Grid item xs={7} sx={{display: "flex", justifyContent: "space-between", mt: 0.3}}>
+                    <Grid item xs={7} sx={{display: "flex", justifyContent: "space-between"}}>
                         <Button sx={sxStyles.button} 
                             startIcon={<MapIcon/>} 
                             size="large" 
@@ -86,8 +86,8 @@ const Navbar = ({handleLoading}: IProps) => {
                             variant="contained" 
                             onClick={() => navigate("/skiing")}>Ski</Button>
                     </Grid>
-                    <Grid item xs={5} sx={{ mt: 0.3}}>
-                        <Button sx={{width: '300px', height: '50px', fontSize: '16px', backgroundColor: '#3C8ED9', float: "right", mr: 10}} 
+                    <Grid item xs={5}>
+                        <Button sx={{width: '200px', height: '70%', fontSize: '14px', backgroundColor: '#3C8ED9', float: "right", mr: 10}} 
                             startIcon={<SyncIcon/>} 
                             variant="contained" 
                             size="large" 
@@ -99,7 +99,7 @@ const Navbar = ({handleLoading}: IProps) => {
             
             <Snackbar
                 sx={{'& .MuiAlert-message': {
-                    fontSize: '26px'}, width: 500}} 
+                    fontSize: '14px'}, width: 300}} 
                 open={open}
                 autoHideDuration={6000}
                 onClose={() => setOpen(false)}>
@@ -115,9 +115,9 @@ export default Navbar;
 
 const sxStyles = {
     button: {
-        width: '300px',
-        height: '50px',
+        height: '70%',
+        width: '25%',
         backgroundColor: '#3C8ED9', 
-        fontSize: '16px'
+        fontSize: '14px'
     }
 }
