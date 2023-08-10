@@ -1,4 +1,5 @@
 //import { Avatar } from "@mui/material"
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 
 export default function Footer(){
@@ -7,8 +8,7 @@ export default function Footer(){
         <div style={{...styles.footer, position: 'fixed'}}>
             <div style={styles.avatar}>
                 <a href="https://github.com/matsaks/MatsTracks" target="_blank">
-                    {/* <Avatar alt="Github" src="src\assets\github.png" /> */}
-                    <div>Github</div>
+                    <GitHubIcon />
                 </a>
             </div>
         </div>

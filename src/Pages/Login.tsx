@@ -2,7 +2,7 @@ import { Alert, Box, Button, Container, CssBaseline, Snackbar, TextField, Typogr
 import { frases } from "../data/stormen";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import LandscapeIcon from '@mui/icons-material/Landscape';
 
 export default function Login(){
     const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function Login(){
                     flexDirection: 'column',
                     alignItems: 'center',}}
                     >
-                    {/* <Avatar alt="Logo" src="src\assets\logo.png" /> */}
+                    <LandscapeIcon />
                     <Typography component="h1" variant="h5">
                         Fullfør setningen
                     </Typography>    
