@@ -28,14 +28,14 @@ export default function LocationBar({handleLocationChange, map, numberOfLocation
             return (
                 <div style={{ display: 'flex' , justifyContent: 'space-between', marginTop: '15px'}}>
                     {runningLocations.slice(0, numberOfLocations-1).map((location) => (
-                        <Button sx={sxStyles.button} onClick={() => handleLocationChange(location)} variant="contained">{location}</Button>
+                        <Button sx={sxStyles.button} onClick={() => handleLocationChange(location)} variant="contained" key={location}>{location}</Button>
                     ))}
                 </div>
         )} else {
             return (
                 <div style={{ display: 'flex' , justifyContent: 'space-between', marginTop: '15px'}}>
                     {skiingLocations.slice(0, numberOfLocations-1).map((location) => (
-                        <Button sx={sxStyles.button} onClick={() => handleLocationChange(location)} variant="contained">{location}</Button>
+                        <Button sx={sxStyles.button} onClick={() => handleLocationChange(location)} variant="contained" key={location}>{location}</Button>
                     ))}
                 </div>
             )

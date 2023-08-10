@@ -9,7 +9,11 @@ import { ProgressBar } from "react-loader-spinner";
 import LocationBar from "../Components/LocationsBar";
 import Grid from "@mui/material/Grid";
 
-export default function Running(){
+interface IProps {
+    windowSize: number;
+}
+
+export default function Running({windowSize}: IProps){
     const heatMapContainerRef = useRef<HTMLDivElement | null>(null);
     const heatMapRef = useRef<MapboxMap | null>(null);
     const [runs, setRuns] = useState<IActivity[]>([]);
@@ -30,18 +34,13 @@ export default function Running(){
     },[]);
 
     const handleResize = () => {
-        window.innerWidth >= 800 ? setWideEnoughWindow(true) : setWideEnoughWindow(false);
-        setNumberOfLocations(Math.floor(window.innerWidth / 160));
+        windowSize >= 800 ? setWideEnoughWindow(true) : setWideEnoughWindow(false);
+        setNumberOfLocations(Math.floor(windowSize / 160));
     };
 
     useEffect(() => {
         handleResize(); 
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+    }, [windowSize]);
 
     useEffect(() => {
         if (!heatMapContainerRef.current) return;

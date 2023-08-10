@@ -9,7 +9,11 @@ import Stats from "../Components/Stats";
 import LocationBar from "../Components/LocationsBar";
 import Grid from "@mui/material/Grid";
 
-export default function Skiing(){
+interface IProps {
+    windowSize: number;
+}
+
+export default function Skiing({windowSize}: IProps){
     const heatMapContainerRef = useRef<HTMLDivElement | null>(null);
     const heatMapRef = useRef<MapboxMap | null>(null);
     const [skis, setSkis] = useState<IActivity[]>([]);
@@ -30,18 +34,13 @@ export default function Skiing(){
     },[]);
 
     const handleResize = () => {
-        window.innerWidth >= 800 ? setWideEnoughWindow(true) : setWideEnoughWindow(false);
-        setNumberOfLocations(Math.floor(window.innerWidth / 160));
+        windowSize >= 800 ? setWideEnoughWindow(true) : setWideEnoughWindow(false);
+        setNumberOfLocations(Math.floor(windowSize / 160));
     };
 
     useEffect(() => {
         handleResize(); 
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+    }, [windowSize]);
 
     useEffect(() => {
         if (!heatMapContainerRef.current) return;
@@ -117,7 +116,7 @@ export default function Skiing(){
     return (
         <div>
             <Grid container spacing={2}>
-                <Grid item xs={10}>
+                <Grid item xs={wideEnoughWindow ? 10 : 12}>
                     {isLoading ? (
                         <div>
                             <ProgressBar

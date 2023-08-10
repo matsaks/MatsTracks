@@ -4,27 +4,44 @@ import Navbar from './Components/Navbar'
 import Heatmap from './Pages/Heatmap'
 import Running from './Pages/Running'
 import Skiing from './Pages/Skiiing'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MagnifyingGlass } from 'react-loader-spinner'
 import Login from './Pages/Login'
 import Footer from './Components/Footer'
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
+  const [largeWindow, setLargeWindow] = useState(true);
+  const [windowSize, setWindowSize] = useState(window.innerWidth);
 
   function changeIsLoading(load: boolean){
     load ? setIsLoading(true) : setIsLoading(false); 
   }
 
+  useEffect(() => {
+    handleResize(); 
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+        window.removeEventListener('resize', handleResize);
+    };
+}, []);
+
+const handleResize = () => {
+    setLargeWindow(window.innerWidth > 750);
+    setWindowSize(window.innerWidth);
+    //console.log(windowSize);
+};
+
   return (
     <div>
       <BrowserRouter>
-        <Navbar handleLoading={changeIsLoading}/>
+        <Navbar handleLoading={changeIsLoading} largeWindow={largeWindow}/>
         <Routes>
           <Route path='/' element={<Login/>}/>
-          <Route path='/heatmap' element={<Heatmap/>}/>
-          <Route path='running' element={<Running/>}/>
-          <Route path='skiing' element={<Skiing/>}/>
+          <Route path='/heatmap' element={<Heatmap windowSize={windowSize}/>}/>
+          <Route path='running' element={<Running windowSize={windowSize}/>}/>
+          <Route path='skiing' element={<Skiing windowSize={windowSize}/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>

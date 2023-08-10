@@ -5,37 +5,24 @@ import TerrainIcon from '@mui/icons-material/Terrain';
 import SyncIcon from '@mui/icons-material/Sync';
 import { useNavigate } from "react-router-dom";
 import { addActivities, syncActivities } from "../lib/controller";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface IProps {
     handleLoading: {(arg0: boolean): void};
+    largeWindow: boolean;
 }
 
-const Navbar = ({handleLoading}: IProps) => {
+const Navbar = ({handleLoading, largeWindow}: IProps) => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [alertType, setAlertType] = useState<AlertColor>("info");
     const hideNavbarOnRoutes = ['/'];
-    const [largeWindow, setLargeWindow] = useState(true);
     const shouldHideNavbar = hideNavbarOnRoutes.includes(location.pathname);
 
     if (shouldHideNavbar){
         return null;
     }
-
-    const handleResize = () => {
-        setLargeWindow(window.innerWidth > 700);
-    };
-
-    useEffect(() => {
-        handleResize(); 
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
 
     async function handleSync(){
         try {
@@ -100,7 +87,7 @@ const Navbar = ({handleLoading}: IProps) => {
                             onClick={() => navigate("/skiing")}>{largeWindow && "Ski"}</Button>
                     </Grid>
                     <Grid item xs={5}>
-                        <Button sx={{width: '40%', height: '70%', fontSize: '14px', backgroundColor: '#3C8ED9', float: "right", mr: 10}} 
+                        <Button sx={{width: '50%', height: '70%', fontSize: '14px', backgroundColor: '#3C8ED9', float: "right", mr: 10}} 
                             startIcon={<SyncIcon/>} 
                             variant="contained" 
                             size="large" 

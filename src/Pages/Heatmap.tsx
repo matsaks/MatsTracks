@@ -10,11 +10,15 @@ import LocationBar from "../Components/LocationsBar";
 
 mapboxgl.accessToken = "pk.eyJ1IjoibWF0c2FrcyIsImEiOiJjbGp6a3Q5d3EwMGoyM3BuM3h2c3lwM3RoIn0.16VvTvPT5Fb9IVsT8Z38Hg";
 
-export default function Map(){
+interface IProps {
+    windowSize: number;
+}
+
+export default function Heatmap({windowSize}: IProps){
     const heatMapContainerRef = useRef<HTMLDivElement | null>(null);
     const heatMapRef = useRef<MapboxMap | null>(null);
     const [activities, setActivities] = useState<IActivity[]>([]);
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setLoading] = useState(false);
     const [location, setLocation] = useState("Ålesund");
     const [numberOfLocations, setNumberOfLocations] = useState(5);
 
@@ -30,17 +34,12 @@ export default function Map(){
     },[]);
 
     const handleResize = () => {
-        setNumberOfLocations(Math.floor(window.innerWidth / 160));
+        setNumberOfLocations(Math.floor(windowSize / 160));
     };
 
     useEffect(() => {
         handleResize(); 
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+    }, [windowSize]);
 
     useEffect(() => {
         if (!heatMapContainerRef.current) return;
