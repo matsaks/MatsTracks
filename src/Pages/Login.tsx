@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Button, Container, CssBaseline, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, CssBaseline, Snackbar, TextField, Typography } from "@mui/material";
 import { frases } from "../data/stormen";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -36,7 +36,7 @@ export default function Login(){
                     flexDirection: 'column',
                     alignItems: 'center',}}
                     >
-                    <Avatar alt="Logo" src="src\assets\logo.png" />
+                    {/* <Avatar alt="Logo" src="src\assets\logo.png" /> */}
                     <Typography component="h1" variant="h5">
                         Fullfør setningen
                     </Typography>    
