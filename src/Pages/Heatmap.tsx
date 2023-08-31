@@ -19,7 +19,7 @@ export default function Heatmap({windowSize}: IProps){
     const heatMapRef = useRef<MapboxMap | null>(null);
     const [activities, setActivities] = useState<IActivity[]>([]);
     const [isLoading, setLoading] = useState(false);
-    const [location, setLocation] = useState("Ålesund");
+    const [location, setLocation] = useState("Trondheim");
     const [numberOfLocations, setNumberOfLocations] = useState(5);
 
     useEffect(() => {
